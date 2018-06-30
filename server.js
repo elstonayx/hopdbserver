@@ -1,16 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const mongodb = require("mongodb");
 const dotenv = require("dotenv");
+const request = require("request");
 
-const cafeModel = require("./models/cafeModel.js");
-const reviewModel = require("./models/reviewModel.js");
-
+const dbFunction = require("./app.js");
 const app = express();
 
 dotenv.load();
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//connect to database and start listening on port
 mongoose.connect(
   process.env.MONGO_URI,
   err => {
@@ -26,33 +26,12 @@ app.get("/", (req, res) => {
 });
 
 //Retrieving Cafe Data
-app.get("/cafe", (req, res) => {
-  console.log(req.query.name);
-  cafeModel.Cafe.find(
-    { name: { $regex: req.query.name, $options: "i" } },
-    (err, data) => {
-      if (err) return res.send(err);
-      res.send(data);
-    }
-  );
-});
+app.get("/cafe", dbFunction.findCafe);
 
 //Posting Cafe Data
-app.post("/cafe", (req, res) => {
-  var newCafe = new cafeModel.Cafe(req.query);
-  newCafe.save((err, data) => {
-    if (err) return console.log(err);
-    res.send(data);
-  });
-});
+app.post("/cafe", dbFunction.postCafe);
 
 //Retrieving BloggerReview Data
 
 //Posting BloggerReview Data
-app.post("/bloggerReviews", (req, res) => {
-  var newBloggerReview = new reviewModel.BloggerReview(req.query);
-  newBloggerReview.save((err, data) => {
-    if (err) return console.log(err);
-    res.send(data);
-  });
-});
+app.post("/bloggerReviews", dbFunction.postBloggerReview);
