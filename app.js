@@ -1,5 +1,6 @@
 const cafeModel = require("./models/cafeModel.js");
 const reviewModel = require("./models/reviewModel.js");
+const request = require("request");
 
 var findCafe = (req, res) => {
   console.log(req.query.name);
