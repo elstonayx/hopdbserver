@@ -1,0 +1,22 @@
+{
+  "name": "hopdbserver",
+  "version": "1.0.0",
+  "description": "Database Server for Hop iOS App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.0",
+    "mongoose": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
