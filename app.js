@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const cafeModel = require("./models/cafeModel.js");
 const reviewModel = require("./models/reviewModel.js");
 
@@ -8,8 +7,7 @@ var findCafe = (req, res) => {
     { name: { $regex: req.query.name, $options: "i" } },
     (err, data) => {
       if (err) return res.send(err);
-      console.log(retrieveBloggerReview(data[0]["fsVenueId"]));
-      res.send(data);
+      retrieveBloggerReview(data[0]["fsVenueId"], data, res);
     }
   );
 };
@@ -30,15 +28,15 @@ var postBloggerReview = (req, res) => {
   });
 };
 
-var retrieveBloggerReview = fsVenueId => {
+var retrieveBloggerReview = (fsVenueId, dataFromCafeModel, res) => {
+  var query;
   reviewModel.BloggerReview.find({ fsVenueId: fsVenueId }, (err, data) => {
     if (err) return console.log(err);
-    //to be fixed: how to return the data out after finding
-    return data;
+    res.send({ cafeData: dataFromCafeModel, bloggerReviews: data });
   });
+  return query;
 };
 
 exports.findCafe = findCafe;
 exports.postCafe = postCafe;
-exports.retrieveBloggerReview = retrieveBloggerReview;
 exports.postBloggerReview = postBloggerReview;

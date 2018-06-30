@@ -30,7 +30,8 @@ var cafeSchema = new Schema({
     vegetarian: Boolean,
     water: Boolean,
     wifi: Boolean
-  }
+  },
+  lastUpdated: Date
 });
 
 module.exports = {
