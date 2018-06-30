@@ -1,6 +1,6 @@
 {
   "name": "hopdbserver",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Database Server for Hop iOS App",
   "main": "index.js",
   "scripts": {
