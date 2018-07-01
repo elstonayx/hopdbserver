@@ -2,9 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const request = require("request");
 
-const dbFunction = require("./app.js");
+const dbFunction = require("./database");
+const foursquareCall = require("./helper/foursquare");
 const app = express();
 
 dotenv.load();
@@ -31,7 +31,8 @@ app.get("/cafe", dbFunction.findCafe);
 //Posting Cafe Data
 app.post("/cafe", dbFunction.postCafe);
 
-//Retrieving BloggerReview Data
-
 //Posting BloggerReview Data
 app.post("/bloggerReviews", dbFunction.postBloggerReview);
+
+//openPage
+app.get("/foursquare/cafe", foursquareCall.findCafe);
