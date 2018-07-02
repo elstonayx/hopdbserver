@@ -5,11 +5,14 @@ const dotenv = require("dotenv");
 
 const dbFunction = require("./database");
 const foursquareCall = require("./helper/foursquare");
+const config = require("./config.json");
+
 const app = express();
-
 dotenv.load();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+console.log("Starting up Hop Database Server");
 //connect to database and start listening on port
 mongoose.connect(
   process.env.MONGO_URI,
@@ -24,6 +27,16 @@ mongoose.connect(
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
+
+//recieving tokens
+app.post("/getToken", dbFunction.getToken);
+
+app.post("/addAuth", dbFunction.addAuth);
+
+//checks if requester has valid token
+if (config.AUTH_ENABLED) {
+  app.use("/", dbFunction.verifyToken);
+}
 
 //Retrieving Cafe Data
 app.get("/cafe", dbFunction.findCafe);
