@@ -3,9 +3,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-const dbFunction = require("./database");
+const database = require("./database");
 const foursquareCall = require("./helper/foursquare");
 const config = require("./config.json");
+const authenticate = require("./authenticate");
 
 const app = express();
 dotenv.load();
@@ -28,24 +29,26 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-//recieving tokens
-app.post("/getToken", dbFunction.getToken);
+app.post("/newUser", authenticate.addUser);
 
-app.post("/addAuth", dbFunction.addAuth);
+app.post("/login", authenticate.userLogin);
 
 //checks if requester has valid token
 if (config.AUTH_ENABLED) {
-  app.use("/", dbFunction.verifyToken);
+  app.use("/", authenticate.verifyToken);
 }
 
 //Retrieving Cafe Data
-app.get("/cafe", dbFunction.findCafe);
+app.get("/cafe", database.findCafe);
 
 //Posting Cafe Data
-app.post("/cafe", dbFunction.postCafe);
+app.post("/cafe", database.postCafe);
 
 //Posting BloggerReview Data
-app.post("/bloggerReviews", dbFunction.postBloggerReview);
+app.post("/bloggerReviews", database.postBloggerReview);
 
 //openPage
-app.get("/foursquare/cafe", foursquareCall.findCafe);
+app.get("/foursquare/cafe", async (req, res) => {
+  var photos = await foursquareCall.findCafe(req.query.fsVenueId);
+  res.json(photos);
+});

@@ -1,6 +1,6 @@
 const request = require("request-promise");
 const dotenv = require("dotenv");
-const formatData = require("./formatFsResults");
+const formatData = require("./formatData");
 
 dotenv.load();
 
@@ -11,8 +11,8 @@ var findCafe = async fsVenueId => {
       url: "https://api.foursquare.com/v2/venues/" + fsVenueId,
       method: "GET",
       qs: {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
+        client_id: process.env.FOURSQUARE_CLIENT_ID,
+        client_secret: process.env.FOURSQUARE_CLIENT_SECRET,
         v: "20180701"
       }
     },
@@ -24,7 +24,8 @@ var findCafe = async fsVenueId => {
       }
     }
   );
-  return formatData.packageCafeModel(cafeData);
+  return cafeData.response.venue.photos;
+  //return formatData.packageCafeModel(cafeData);
 };
 
 //input in foursquare.venue
