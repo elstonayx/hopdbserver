@@ -8,7 +8,7 @@ packageCafeModel = rawCafeData => {
     url: rawCafeData.response.venue.canonicalUrl,
     contactNo: rawCafeData.response.venue.contact.formattedPhone,
     address: [
-      rawCafeData.response.venue.location.formattedAddress[0],
+      rawCafeData.response.venue.location.formattedAddress[0] + ",",
       rawCafeData.response.venue.location.formattedAddress[2],
       rawCafeData.response.venue.location.formattedAddress[1]
     ].join(" "),
