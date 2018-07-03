@@ -22,7 +22,6 @@ var findCafe = (req, res) => {
           if (err) return console.log(err);
         });
       }
-      const bloggerReviews = await retrieveBloggerReview(req.query.fsVenueId);
       res.json(cafeResults);
     }
   );
@@ -47,7 +46,8 @@ var postBloggerReview = (req, res) => {
   });
 };
 
-var retrieveBloggerReview = async fsVenueId => {
+var findBloggerReview = async (req, res) => {
+  var fsVenueId = req.query.fsVenueId;
   var query;
   await reviewModel.BloggerReview.find(
     { fsVenueId: fsVenueId },
@@ -56,7 +56,7 @@ var retrieveBloggerReview = async fsVenueId => {
       query = data;
     }
   );
-  return query;
+  res.json(query);
 };
 
 var postHopperReview = (req, res) => {
@@ -71,5 +71,6 @@ var postHopperReview = (req, res) => {
 };
 
 exports.findCafe = findCafe;
+exports.findBloggerReview = findBloggerReview;
 exports.postCafe = postCafe;
 exports.postBloggerReview = postBloggerReview;

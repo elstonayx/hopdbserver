@@ -7,7 +7,11 @@ packageCafeModel = rawCafeData => {
     fsVenueId: rawCafeData.response.venue.id,
     url: rawCafeData.response.venue.canonicalUrl,
     contactNo: rawCafeData.response.venue.contact.formattedPhone,
-    address: rawCafeData.response.venue.location.formattedAddress[0],
+    address: [
+      rawCafeData.response.venue.location.formattedAddress[0],
+      rawCafeData.response.venue.location.formattedAddress[2],
+      rawCafeData.response.venue.location.formattedAddress[1]
+    ].join(" "),
     latitude: rawCafeData.response.venue.location.lat,
     longitude: rawCafeData.response.venue.location.lng,
     lastUpdated: Date.now()
