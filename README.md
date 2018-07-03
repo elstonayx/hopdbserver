@@ -10,10 +10,13 @@ The server is used to store Cafe data, reviews, and userbase for Hop Cafe App.
 - HTTP POST /bloggerReviews - post blogger reviews onto the database
 - JSON Web Token
 - Retrieval from Foursquare API
+- User Database
+- - Implemented bcrypt for passwords
 
 ## To be Implemented
 
-- [ ] Implementation of user database
 - [ ] Save cafe crowded times data https://github.com/m-wrzr/populartimes
+- [ ] Scraper for reviews from popular blog sites
+- [ ] Reward implementation
 
 Developed By: Cheng Xian Hao and Elston Aw

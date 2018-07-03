@@ -33,6 +33,8 @@ app.post("/newUser", authenticate.addUser);
 
 app.post("/login", authenticate.userLogin);
 
+app.get("/nouserlogin", authenticate.noUserLogin);
+
 //checks if requester has valid token
 if (config.AUTH_ENABLED) {
   app.use("/", authenticate.verifyToken);

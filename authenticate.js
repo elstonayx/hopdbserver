@@ -70,6 +70,20 @@ var userLogin = (req, res) => {
   });
 };
 
+var noUserLogin = (req, res) => {
+  //check for source
+  const payload = {
+    isLoggedIn: false,
+    loggedInDate: Date.now()
+  };
+  var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
+  res.json({
+    success: true,
+    message: "No login. Token will expire in 24 hours. ",
+    token: token
+  });
+};
+
 var verifyToken = (req, res, next) => {
   const token =
     req.body.token || req.query.token || req.headers["x-access-token"];
@@ -96,3 +110,5 @@ var verifyToken = (req, res, next) => {
 
 exports.addUser = addUser;
 exports.userLogin = userLogin;
+exports.verifyToken = verifyToken;
+exports.noUserLogin = noUserLogin;

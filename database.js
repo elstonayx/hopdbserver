@@ -1,9 +1,6 @@
 const cafeModel = require("./models/cafeModel");
 const reviewModel = require("./models/reviewModel");
-const authModel = require("./models/authModel");
 const foursquare = require("./helper/foursquare");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 var findCafe = (req, res) => {
   if (req.query.fsVenueId == null)
@@ -26,7 +23,7 @@ var findCafe = (req, res) => {
         });
       }
       const bloggerReviews = await retrieveBloggerReview(req.query.fsVenueId);
-      res.send({ cafeData: cafeResults, bloggerReviews: bloggerReviews });
+      res.json(cafeResults);
     }
   );
 };
@@ -43,7 +40,10 @@ var postBloggerReview = (req, res) => {
   var newBloggerReview = new reviewModel.BloggerReview(req.query);
   newBloggerReview.save((err, data) => {
     if (err) return console.log(err);
-    res.send(data);
+    res.status(200).json({
+      success: true,
+      message: "Successfully posted blogger review!"
+    });
   });
 };
 
@@ -57,6 +57,17 @@ var retrieveBloggerReview = async fsVenueId => {
     }
   );
   return query;
+};
+
+var postHopperReview = (req, res) => {
+  var newHopperReview = new reviewModel.HopperReview(req, query);
+  newHopperReview.save((err, data) => {
+    if (err) return console.log(err);
+    res.status(200).json({
+      success: true,
+      message: "Successfully posted hopper review!"
+    });
+  });
 };
 
 exports.findCafe = findCafe;
