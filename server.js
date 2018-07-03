@@ -41,7 +41,9 @@ if (config.AUTH_ENABLED) {
 }
 
 //Retrieving Cafe Data
-app.get("/cafe", database.findCafe);
+app.get("/cafe/data", database.findCafe);
+
+app.get("/cafe/review", database.findBloggerReview);
 
 //Posting Cafe Data
 app.post("/cafe", database.postCafe);
