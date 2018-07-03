@@ -24,8 +24,8 @@ var findCafe = async fsVenueId => {
       }
     }
   );
-  return cafeData.response.venue.photos;
-  //return formatData.packageCafeModel(cafeData);
+  //return cafeData.response.venue.photos;
+  return formatData.packageCafeModel(cafeData);
 };
 
 //input in foursquare.venue

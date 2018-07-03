@@ -8,17 +8,13 @@ var cafeSchema = new Schema({
   bloggerRating: { type: Number, min: 0, max: 5 },
   hopperRating: { type: Number, min: 0, max: 5 },
   priceRange: { type: Number, min: 1, max: 3 },
-  imageSliderURLArray: [String],
+  images: [String],
   url: String,
-  contact: {
-    number: String,
-    email: String
-  },
-  location: {
-    address: { type: String, required: true },
-    latitude: Number,
-    longitude: Number
-  },
+  contactNo: String,
+  contactEmail: String,
+  address: { type: String, required: true },
+  latitude: Number,
+  longitude: Number,
   amenities: {
     cardPayment: Boolean,
     halal: Boolean,
