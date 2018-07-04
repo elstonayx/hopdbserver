@@ -7,6 +7,7 @@ const database = require("./database");
 const foursquareCall = require("./helper/foursquare");
 const config = require("./config.json");
 const authenticate = require("./authenticate");
+const gplaces = require("./helper/gplaces");
 
 const app = express();
 dotenv.load();
@@ -46,6 +47,10 @@ app.get("/cafe/data", database.findCafe);
 app.get("/cafe/review", database.findBloggerReview);
 
 app.post("/cafe/review", database.postHopperReview);
+
+app.get("/cafe/google", (req, res) => {
+  res.send(gplaces.searchCafe(req.query.name));
+});
 
 //Posting Cafe Data
 app.post("/cafe", database.postCafe);
