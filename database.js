@@ -74,3 +74,4 @@ exports.findCafe = findCafe;
 exports.findBloggerReview = findBloggerReview;
 exports.postCafe = postCafe;
 exports.postBloggerReview = postBloggerReview;
+exports.postHopperReview = postHopperReview;

@@ -45,6 +45,8 @@ app.get("/cafe/data", database.findCafe);
 
 app.get("/cafe/review", database.findBloggerReview);
 
+app.post("/cafe/review", database.postHopperReview);
+
 //Posting Cafe Data
 app.post("/cafe", database.postCafe);
 
