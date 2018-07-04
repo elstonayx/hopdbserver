@@ -60,7 +60,8 @@ var findBloggerReview = async (req, res) => {
 };
 
 var postHopperReview = (req, res) => {
-  var newHopperReview = new reviewModel.HopperReview(req, query);
+  console.log(req.body);
+  var newHopperReview = new reviewModel.HopperReview(req.body);
   newHopperReview.save((err, data) => {
     if (err) return console.log(err);
     res.status(200).json({
