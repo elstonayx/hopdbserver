@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-app.post("/newUser", authenticate.addUser);
+app.post("/newuser", authenticate.addUser);
 
 app.post("/login", authenticate.userLogin);
 
@@ -44,19 +44,19 @@ if (config.AUTH_ENABLED) {
 //Retrieving Cafe Data
 app.get("/cafe/data", database.findCafe);
 
-app.get("/cafe/review", database.findBloggerReview);
+app.get("/cafe/review/blogger", database.findBloggerReview);
 
-app.post("/cafe/review", database.postHopperReview);
+app.post("/cafe/review/blogger", database.postBloggerReview);
 
 app.get("/cafe/google", (req, res) => {
   res.send(gplaces.searchCafe(req.query.name));
 });
 
 //Posting Cafe Data
-app.post("/cafe", database.postCafe);
+app.post("/cafe/data", database.postCafe);
 
 //Posting BloggerReview Data
-app.post("/bloggerReviews", database.postBloggerReview);
+app.post("/cafe/review/hopper", database.postHopperReview);
 
 //openPage
 app.get("/foursquare/cafe", async (req, res) => {
