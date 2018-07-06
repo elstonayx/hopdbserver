@@ -21,7 +21,7 @@ var searchCafe = async cafeName => {
       if (err) {
         console.log(err);
       } else {
-        if (body == null) return console.log("Empty body.");
+        if (body.status == "INVALID_REQUEST") return console.log("Empty body.");
         else {
           placeId = await JSON.parse(body).results[0].place_id;
         }
@@ -29,7 +29,6 @@ var searchCafe = async cafeName => {
     }
   );
   results = await photoReferenceFromPlaceId(placeId);
-  console.log(results);
   return results;
 };
 
@@ -56,7 +55,23 @@ var photoReferenceFromPlaceId = async placeId => {
       }
     }
   );
-  return results;
+  var urlArray = [];
+  for (var i = 0; i < results.length && i < 5; i++) {
+    urlArray.push(
+      returnPhotoUrlFromPhotoReferenceId(results[i].photo_reference)
+    );
+  }
+  return urlArray;
+};
+
+var returnPhotoUrlFromPhotoReferenceId = photoReference => {
+  return (
+    "https://maps.googleapis.com/maps/api/place/photo?" +
+    "photoreference=" +
+    photoReference +
+    "&maxwidth=960&key=" +
+    process.env.G_PLACES_API_KEY
+  );
 };
 
 exports.searchCafe = searchCafe;
