@@ -71,8 +71,19 @@ var postHopperReview = (req, res) => {
   });
 };
 
+var getHopperReview = async (req, res) => {
+  var fsVenueId = req.query.fsVenueId;
+  var query;
+  await reviewModel.HopperReview.find({ fsVenueId: fsVenueId }, (err, data) => {
+    if (err) return console.log(err);
+    query = data;
+  });
+  res.json(query);
+};
+
 exports.findCafe = findCafe;
 exports.findBloggerReview = findBloggerReview;
 exports.postCafe = postCafe;
 exports.postBloggerReview = postBloggerReview;
 exports.postHopperReview = postHopperReview;
+exports.getHopperReview = getHopperReview;

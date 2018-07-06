@@ -48,8 +48,10 @@ app.get("/cafe/review/blogger", database.findBloggerReview);
 
 app.post("/cafe/review/blogger", database.postBloggerReview);
 
-app.get("/cafe/google", (req, res) => {
-  res.send(gplaces.searchCafe(req.query.name));
+app.get("/cafe/google", async (req, res) => {
+  var results = await gplaces.searchCafe(req.query.name);
+
+  res.send(results);
 });
 
 //Posting Cafe Data
@@ -57,6 +59,8 @@ app.post("/cafe/data", database.postCafe);
 
 //Posting BloggerReview Data
 app.post("/cafe/review/hopper", database.postHopperReview);
+
+app.get("/cafe/review/hopper", database.getHopperReview);
 
 //openPage
 app.get("/foursquare/cafe", async (req, res) => {
