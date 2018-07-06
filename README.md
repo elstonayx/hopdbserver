@@ -13,37 +13,42 @@ The server is used to store Cafe data, reviews, and userbase for Hop Cafe App.
 - User Database
 - - Implemented bcrypt for passwords
 
-## Routes
+## Routes for Client Side
 
 - GET /cafe/data
-- - params: fsVenueId
+- params: fsVenueId
 
 - POST /cafe/data
-- - params: cafeModel
+- params: cafeModel
 
 - GET /cafe/review/blogger
-- - params: fsVenueId
-
-- POST /cafe/review/blogger
-- - params: bloggerReviewModel
-
-- GET /cafe/google
-- - params: name
+- params: fsVenueId
 
 - POST /cafe/review/hopper
-- - params: HopperReviewModel
+- params: HopperReviewModel
 
-- GET /foursquare/cafe
-- - params: fsVenueId
+- GET /cafe/review/hopper
+- params: fsVenueId
 
 - POST /newuser
-- - params: UserModel
+- params: UserModel
 
 - POST /login
-- - params: userName, userPassword
+- params: userName, userPassword
 
 - GET /nouserlogin
-- - params: nil
+- params: nil
+
+## Routes for Internal Use
+
+- GET /foursquare/cafe
+- params: fsVenueId
+
+- GET /cafe/google
+- params: name
+
+- POST /cafe/review/blogger
+- params: bloggerReviewModel
 
 ## To be Implemented
 
