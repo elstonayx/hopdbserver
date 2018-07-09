@@ -77,7 +77,6 @@ var noUserLogin = (req, res) => {
   };
   var token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
   res.json({
-    success: true,
     message: "No login. Token will expire in 24 hours. ",
     token: token
   });
