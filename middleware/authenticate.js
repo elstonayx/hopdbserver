@@ -59,7 +59,6 @@ var userLogin = (req, res) => {
             };
             var token = jwt.sign(payload, process.env.JWT_SECRET);
             res.json({
-              success: true,
               message: "Authentication success!",
               token: String(token)
             });
