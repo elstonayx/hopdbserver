@@ -11,6 +11,7 @@ var cafeSchema = new Schema({
   priceRange: { type: Number, min: 1, max: 3 },
   images: [String],
   url: String,
+  facebookPage: String,
   contactNo: String,
   contactEmail: String,
   address: { type: String, required: true },
@@ -18,6 +19,20 @@ var cafeSchema = new Schema({
   latitude: Number,
   longitude: Number,
   amenities: {
+    type: Array,
+    default: [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+    /*
     cardPayment: { type: Boolean, default: false },
     halal: { type: Boolean, default: false },
     studying: { type: Boolean, default: false },
@@ -28,6 +43,7 @@ var cafeSchema = new Schema({
     vegetarian: { type: Boolean, default: false },
     water: { type: Boolean, default: false },
     wifi: { type: Boolean, default: false }
+    */
   },
   lastUpdated: Date
 });

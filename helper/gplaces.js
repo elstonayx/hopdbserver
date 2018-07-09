@@ -23,7 +23,7 @@ var searchCafe = async cafeName => {
       if (err) {
         console.log(err);
       } else {
-        if (body.status == "INVALID_REQUEST") return console.log("Empty body.");
+        if (body.status == "INVALID_REQUEST") console.log("Empty body.");
         else {
           placeId = await JSON.parse(body).results[0].place_id;
         }

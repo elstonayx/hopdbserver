@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const userModel = require("./models/userModel");
+const userModel = require("./../models/userModel");
 
 var addUser = (req, res) => {
   //TODO: checks for password - can be done on both client or server side
@@ -61,7 +61,7 @@ var userLogin = (req, res) => {
             res.json({
               success: true,
               message: "Authentication success!",
-              token: token
+              token: String(token)
             });
           }
         }
