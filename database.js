@@ -14,7 +14,6 @@ var findCafe = (req, res) => {
       var cafeResults = data;
       if (err) return res.send(err);
       if (data == null) {
-        //unable to find from database
         console.log("Pulled from Foursquare");
         cafeResults = await foursquare.findCafe(req.query.fsVenueId);
         cafeResults.save((err, data) => {
@@ -28,10 +27,47 @@ var findCafe = (req, res) => {
 };
 
 var postCafe = (req, res) => {
-  var newCafe = new cafeModel.Cafe(req.query);
+  var newCafe = new cafeModel.Cafe(req.body);
   newCafe.save((err, data) => {
-    if (err) return console.log(err);
-    res.send(data);
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+
+var patchCafe = async (req, res) => {
+  var fsVenueId = await req.body.fsVenueId;
+  cafeModel.Cafe.findOne({ fsVenueId: fsVenueId }, (err, currentCafe) => {
+    console.log(currentCafe);
+    if (err) {
+      console.log(err);
+      res.status(400).json({
+        success: false,
+        message: "Unable to find fsVenueId in database.",
+        error: err
+      });
+    } else {
+      currentCafe.set(req.body);
+      console.log(currentCafe);
+      currentCafe.save(err => {
+        if (err) {
+          console.log(err);
+          res.status(400).json({
+            success: false,
+            message: "Unable to update cafe",
+            error: err
+          });
+        }
+      });
+      res.status(200).json({
+        success: true,
+        message:
+          "Successfully updated " + req.body.fsVenueId + " in the database."
+      });
+    }
   });
 };
 
@@ -78,12 +114,15 @@ var getHopperReview = async (req, res) => {
     if (err) return console.log(err);
     query = data;
   });
-  res.json(query);
+  res.status(200).json(query);
 };
 
 exports.findCafe = findCafe;
-exports.findBloggerReview = findBloggerReview;
 exports.postCafe = postCafe;
+exports.patchCafe = patchCafe;
+
+exports.findBloggerReview = findBloggerReview;
 exports.postBloggerReview = postBloggerReview;
+
 exports.postHopperReview = postHopperReview;
 exports.getHopperReview = getHopperReview;

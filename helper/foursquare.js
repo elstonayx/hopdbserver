@@ -28,12 +28,4 @@ var findCafe = async fsVenueId => {
   return formatData.packageCafeModel(cafeData);
 };
 
-//input in foursquare.venue
-/*
-var saveToDatabase = (foursquareCafeData) => {
-    var newCafe = new cafeModel.Cafe({
-    })
-}
-*/
-
 exports.findCafe = findCafe;

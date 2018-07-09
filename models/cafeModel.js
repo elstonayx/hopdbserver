@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+//need to add description, openingHours
 var cafeSchema = new Schema({
   name: { type: String, required: true },
-  fsVenueId: { type: String },
+  fsVenueId: { type: String, unique: true },
   bloggerRating: { type: Number, min: 0, max: 5 },
   hopperRating: { type: Number, min: 0, max: 5 },
   priceRange: { type: Number, min: 1, max: 3 },
