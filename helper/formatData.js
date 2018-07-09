@@ -3,6 +3,7 @@ const gplaces = require("./gplaces");
 const cafeModel = require("./../models/cafeModel");
 
 packageCafeModel = async rawCafeData => {
+  //added gplaces here
   var photoArray = await gplaces.searchCafe(rawCafeData.response.venue.name);
   var package = new cafeModel.Cafe({
     name: rawCafeData.response.venue.name,
@@ -15,6 +16,7 @@ packageCafeModel = async rawCafeData => {
       rawCafeData.response.venue.location.formattedAddress[2],
       rawCafeData.response.venue.location.formattedAddress[1]
     ].join(" "),
+    postalCode: rawCafeData.response.venue.location.formattedAddress[2],
     latitude: rawCafeData.response.venue.location.lat,
     longitude: rawCafeData.response.venue.location.lng,
     lastUpdated: Date.now()
