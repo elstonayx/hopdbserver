@@ -30,23 +30,39 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
+/* authentication routes */
 app.post("/newuser", authenticate.addUser);
 
 app.post("/login", authenticate.userLogin);
 
 app.get("/nouserlogin", authenticate.noUserLogin);
 
-//checks if requester has valid token
 if (config.AUTH_ENABLED) {
   app.use("/", authenticate.verifyToken);
 }
 
+/* cafe data routes */
 //Retrieving Cafe Data
 app.get("/cafe/data", database.findCafe);
 
+app.put("/cafe/data", database.patchCafe);
+
+/* blogger review routes */
 app.get("/cafe/review/blogger", database.findBloggerReview);
 
 app.post("/cafe/review/blogger", database.postBloggerReview);
+
+/*hopper review routes */
+app.post("/cafe/review/hopper", database.postHopperReview);
+
+app.get("/cafe/review/hopper", database.getHopperReview);
+
+/* debugging routes */
+//openPage
+app.get("/foursquare/cafe", async (req, res) => {
+  var photos = await foursquareCall.findCafe(req.query.fsVenueId);
+  res.json(photos);
+});
 
 app.get("/cafe/google", async (req, res) => {
   var results = await gplaces.searchCafe(req.query.name);
@@ -56,14 +72,3 @@ app.get("/cafe/google", async (req, res) => {
 
 //Posting Cafe Data
 app.post("/cafe/data", database.postCafe);
-
-//Posting BloggerReview Data
-app.post("/cafe/review/hopper", database.postHopperReview);
-
-app.get("/cafe/review/hopper", database.getHopperReview);
-
-//openPage
-app.get("/foursquare/cafe", async (req, res) => {
-  var photos = await foursquareCall.findCafe(req.query.fsVenueId);
-  res.json(photos);
-});

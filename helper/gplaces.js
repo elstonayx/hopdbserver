@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 
 dotenv.load();
 
+//REQUIRES FIXING
+//BUG - cannot search by cafeName in gplaces, might come out "starbucks", but multiple starbucks locations
 var searchCafe = async cafeName => {
   console.log(cafeName);
   var placeId;
