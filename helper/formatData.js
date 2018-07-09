@@ -16,7 +16,7 @@ packageCafeModel = async rawCafeData => {
       rawCafeData.response.venue.location.formattedAddress[2],
       rawCafeData.response.venue.location.formattedAddress[1]
     ].join(" "),
-    postalCode: rawCafeData.response.venue.location.formattedAddress[2],
+    postalCode: rawCafeData.response.venue.location.formattedAddress[1],
     latitude: rawCafeData.response.venue.location.lat,
     longitude: rawCafeData.response.venue.location.lng,
     lastUpdated: Date.now()

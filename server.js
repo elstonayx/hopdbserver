@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-const database = require("./middleware/database");
+const cafe = require("./middleware/cafes");
+const reviews = require("./middleware/reviews");
 const foursquareCall = require("./helper/foursquare");
 const config = require("./config.json");
 const authenticate = require("./authenticate");
@@ -43,19 +44,19 @@ if (config.AUTH_ENABLED) {
 
 /* cafe data routes */
 //Retrieving Cafe Data
-app.get("/cafe/data", database.findCafe);
+app.get("/cafe/data", cafe.findCafe);
 
-app.patch("/cafe/data", database.patchCafe);
+app.patch("/cafe/data", cafe.patchCafe);
 
 /* blogger review routes */
-app.get("/cafe/review/blogger", database.findBloggerReview);
+app.get("/cafe/review/blogger", reviews.findBloggerReview);
 
-app.post("/cafe/review/blogger", database.postBloggerReview);
+app.post("/cafe/review/blogger", reviews.postBloggerReview);
 
 /*hopper review routes */
-app.post("/cafe/review/hopper", database.postHopperReview);
+app.post("/cafe/review/hopper", reviews.postHopperReview);
 
-app.get("/cafe/review/hopper", database.getHopperReview);
+app.get("/cafe/review/hopper", reviews.getHopperReview);
 
 /* debugging routes */
 //openPage
@@ -71,4 +72,4 @@ app.get("/cafe/google", async (req, res) => {
 });
 
 //Posting Cafe Data
-app.post("/cafe/data", database.postCafe);
+app.post("/cafe/data", cafe.postCafe);
