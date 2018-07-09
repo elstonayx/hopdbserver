@@ -45,7 +45,7 @@ if (config.AUTH_ENABLED) {
 //Retrieving Cafe Data
 app.get("/cafe/data", database.findCafe);
 
-app.put("/cafe/data", database.patchCafe);
+app.patch("/cafe/data", database.patchCafe);
 
 /* blogger review routes */
 app.get("/cafe/review/blogger", database.findBloggerReview);
