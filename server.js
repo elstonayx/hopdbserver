@@ -7,7 +7,7 @@ const cafe = require("./middleware/cafes");
 const reviews = require("./middleware/reviews");
 const foursquareCall = require("./helper/foursquare");
 const config = require("./config.json");
-const authenticate = require("./authenticate");
+const authenticate = require("./middleware/authenticate");
 const gplaces = require("./helper/gplaces");
 
 const app = express();

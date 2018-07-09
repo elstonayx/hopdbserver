@@ -3,28 +3,29 @@ const foursquare = require("./../helper/foursquare");
 
 var findCafe = (req, res) => {
   if (req.query.fsVenueId == null)
-    return res.json({
+    res.json({
       error: 400,
       message: "Foursquare Venue Id not found."
     });
-  cafeModel.Cafe.findOne(
-    { fsVenueId: req.query.fsVenueId },
-    async (err, data) => {
-      var cafeResults = data;
-      if (err) {
-        res.send(err);
+  else
+    cafeModel.Cafe.findOne(
+      { fsVenueId: req.query.fsVenueId },
+      async (err, data) => {
+        var cafeResults = data;
+        if (err) {
+          res.send(err);
+        }
+        if (data == null) {
+          console.log("Pulled from Foursquare");
+          cafeResults = await foursquare.findCafe(req.query.fsVenueId);
+          cafeResults.save((err, data) => {
+            console.log("Saved", cafeResults.name, "to database!");
+            if (err) console.log(err);
+          });
+        }
+        res.json(cafeResults);
       }
-      if (data == null) {
-        console.log("Pulled from Foursquare");
-        cafeResults = await foursquare.findCafe(req.query.fsVenueId);
-        cafeResults.save({}, { setDefaultsOnInsert: true }, (err, data) => {
-          console.log("Saved", cafeResults.name, "to database!");
-          if (err) console.log(err);
-        });
-      }
-      res.json(cafeResults);
-    }
-  );
+    );
 };
 
 var postCafe = (req, res) => {
