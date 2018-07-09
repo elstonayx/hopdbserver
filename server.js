@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-const database = require("./database");
+const database = require("./middleware/database");
 const foursquareCall = require("./helper/foursquare");
 const config = require("./config.json");
 const authenticate = require("./authenticate");

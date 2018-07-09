@@ -14,19 +14,20 @@ var cafeSchema = new Schema({
   contactNo: String,
   contactEmail: String,
   address: { type: String, required: true },
+  postalCode: { type: String },
   latitude: Number,
   longitude: Number,
   amenities: {
-    cardPayment: Boolean,
-    halal: Boolean,
-    studying: Boolean,
-    parking: Boolean,
-    reservations: Boolean,
-    powerSocket: Boolean,
-    transit: Boolean,
-    vegetarian: Boolean,
-    water: Boolean,
-    wifi: Boolean
+    cardPayment: { type: Boolean, default: false },
+    halal: { type: Boolean, default: false },
+    studying: { type: Boolean, default: false },
+    parking: { type: Boolean, default: false },
+    reservations: { type: Boolean, default: false },
+    powerSocket: { type: Boolean, default: false },
+    transit: { type: Boolean, default: false },
+    vegetarian: { type: Boolean, default: false },
+    water: { type: Boolean, default: false },
+    wifi: { type: Boolean, default: false }
   },
   lastUpdated: Date
 });
