@@ -6,12 +6,12 @@ var addUser = (req, res) => {
   //TODO: checks for password - can be done on both client or server side
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   var newUserProfile = new userModel.User({
-    userID: req.body.userID,
+    userID: req.body.userId,
     password: hashedPassword,
     accountType: "Standard",
     contact: {
-      email: req.body.email,
-      phone: req.body.phone
+      email: req.body.contact.email,
+      phone: req.body.contact.phone
     },
     accountCreatedOn: Date.now()
   });
@@ -34,7 +34,7 @@ var addUser = (req, res) => {
 };
 
 var userLogin = (req, res) => {
-  userModel.User.findOne({ userID: req.body.userID }, (err, data) => {
+  userModel.User.findOne({ userId: req.body.userId }, (err, data) => {
     if (err) console.log(err);
     if (data == null) {
       res.json({
