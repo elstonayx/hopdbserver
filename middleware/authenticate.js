@@ -4,10 +4,10 @@ const userModel = require("./../models/userModel");
 
 var addUser = (req, res) => {
   //TODO: checks for password - can be done on both client or server side
-  const hashedPassword = bcrypt.hashSync(req.body.userPassword, 10);
+  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   var newUserProfile = new userModel.User({
-    userName: req.body.userName,
-    userPassword: hashedPassword,
+    userID: req.body.userID,
+    password: hashedPassword,
     accountType: "Standard",
     contact: {
       email: req.body.email,
@@ -34,7 +34,7 @@ var addUser = (req, res) => {
 };
 
 var userLogin = (req, res) => {
-  userModel.User.findOne({ userName: req.body.userName }, (err, data) => {
+  userModel.User.findOne({ userID: req.body.userID }, (err, data) => {
     if (err) console.log(err);
     if (data == null) {
       res.json({
@@ -43,8 +43,8 @@ var userLogin = (req, res) => {
       });
     } else {
       bcrypt.compare(
-        req.body.userPassword,
-        data.userPassword,
+        req.body.password,
+        data.password,
         (err, compareResults) => {
           if (err) return console.log(err);
           if (compareResults == false) {
