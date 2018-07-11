@@ -49,7 +49,7 @@ var cafeSchema = new Schema({
 });
 
 //define index for search
-cafeSchema.index({ fsVenueId: true });
+//cafeSchema.index({ fsVenueId: true });
 
 module.exports = {
   Cafe: mongoose.model("cafes", cafeSchema)
