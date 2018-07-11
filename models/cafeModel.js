@@ -48,6 +48,9 @@ var cafeSchema = new Schema({
   lastUpdated: Date
 });
 
+//define index for search
+cafeSchema.index({ fsVenueId: true });
+
 module.exports = {
   Cafe: mongoose.model("cafes", cafeSchema)
 };
