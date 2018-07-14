@@ -1,4 +1,5 @@
 const reviewModel = require("./../models/reviewModel");
+const response = require("./../helper/status").response;
 
 var postBloggerReview = (req, res) => {
   var newBloggerReview = new reviewModel.BloggerReview(req.query);
@@ -40,7 +41,10 @@ var getHopperReview = async (req, res) => {
   var fsVenueId = req.query.fsVenueId;
   var query;
   await reviewModel.HopperReview.find({ fsVenueId: fsVenueId }, (err, data) => {
-    if (err) return console.log(err);
+    if (err) {
+      res.json(Response(400, "Unable to get Hopper Review."));
+      return console.log(err);
+    }
     query = data;
   });
   res.status(200).json(query);
