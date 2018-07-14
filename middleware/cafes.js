@@ -1,12 +1,10 @@
 const cafeModel = require("./../models/cafeModel");
 const foursquare = require("./../helper/foursquare");
+const response = require("./../helper/status").response;
 
 var findCafe = (req, res) => {
   if (req.query.fsVenueId == null)
-    res.json({
-      error: 400,
-      message: "Foursquare Venue Id not found."
-    });
+    res.json(response(400, "Foursquare VenueId not found."));
   else
     cafeModel.Cafe.findOne(
       { fsVenueId: req.query.fsVenueId },
@@ -46,22 +44,14 @@ var patchCafe = async (req, res) => {
     console.log(currentCafe);
     if (err) {
       console.log(err);
-      res.status(400).json({
-        success: false,
-        message: "Unable to find fsVenueId in database.",
-        error: err
-      });
+      res.json(response(400, "Unable to find cafe."));
     } else {
       currentCafe.set(req.body);
       console.log(currentCafe);
       currentCafe.save(err => {
         if (err) {
           console.log(err);
-          res.status(400).json({
-            success: false,
-            message: "Unable to update cafe",
-            error: err
-          });
+          res.status(400).json(response(400, "Unable to save curent cafe."));
         }
       });
       res.status(200).json({
