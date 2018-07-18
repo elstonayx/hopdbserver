@@ -6,9 +6,10 @@ var bloggerReviewSchema = new Schema({
   fsVenueId: { type: String, required: true },
   url: { type: String, required: true },
   reviewSite: String,
-  reviewDate: String,
-  reviewerName: String,
-  extract: { type: String, maxlength: 200 }
+  //reviewDate: String,
+  //reviewerName: String,
+  title: String,
+  extract: { type: String }
 });
 
 var hopperReviewSchema = new Schema({

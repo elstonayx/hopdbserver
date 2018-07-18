@@ -20,7 +20,7 @@ var addUser = (req, res) => {
   newUserProfile.save(err => {
     if (err) {
       if (err.code == 11000)
-        return res.json(response(400, "Please use a unique username."));
+        return res.json(response(401, "Please use a unique username."));
       else return console.log(err);
     } else res.json(response(200, "New user successfully created!"));
   });
@@ -30,7 +30,7 @@ var userLogin = (req, res) => {
   userModel.User.findOne({ userId: req.body.userId }, (err, data) => {
     if (err) console.log(err);
     if (data == null) {
-      res.json(response(400, "Authentication failed. User not found."));
+      res.json(response(402, "Authentication failed. User not found."));
     } else {
       bcrypt.compare(
         req.body.password,
@@ -38,7 +38,7 @@ var userLogin = (req, res) => {
         (err, compareResults) => {
           if (err) return console.log(err);
           if (compareResults == false) {
-            res.json(response(400, "Authentication failed. Wrong password."));
+            res.json(response(403, "Authentication failed. Wrong password."));
           } else {
             const payload = {
               isLoggedIn: true,
@@ -70,13 +70,13 @@ var verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         console.log(err);
-        return res.json(response(400, "Failed to authenticate token."));
+        return res.json(response(405, "Failed to authenticate token."));
       } else {
         req.decoded = decoded;
         next();
       }
     });
-  } else return res.json(response(403, "No token provided."));
+  } else return res.json(response(406, "No token provided."));
 };
 
 exports.addUser = addUser;

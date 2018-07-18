@@ -5,10 +5,11 @@ const dotenv = require("dotenv");
 
 const cafe = require("./middleware/cafes");
 const reviews = require("./middleware/reviews");
-const foursquareCall = require("./helper/foursquare");
+const foursquareCall = require("./helper/extractCafe");
 const config = require("./config.json");
 const authenticate = require("./middleware/authenticate");
 const gplaces = require("./helper/gplaces");
+const gsearch = require("./helper/gCustSearch");
 
 const app = express();
 dotenv.load();
@@ -68,6 +69,11 @@ app.get("/foursquare/cafe", async (req, res) => {
 app.get("/cafe/google", async (req, res) => {
   var results = await gplaces.searchCafe(req.query.name);
 
+  res.send(results);
+});
+
+app.get("/bloggerreviews/google", async (req, res) => {
+  var results = await gsearch.extractBloggerReviews(req.query.name);
   res.send(results);
 });
 
