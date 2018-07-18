@@ -6,9 +6,9 @@ const Schema = mongoose.Schema;
 var cafeSchema = new Schema({
   name: { type: String, required: true },
   fsVenueId: { type: String, unique: true },
-  bloggerRating: { type: Number, min: 0, max: 5 },
+  bloggerRating: { type: Number, min: -1, max: 5 },
   hopperRating: { type: Number, min: 0, max: 5 },
-  priceRange: { type: Number, min: 0, max: 5 },
+  priceRange: { type: Number, min: -1, max: 5 },
   images: [String],
   url: String,
   facebookPage: String,
