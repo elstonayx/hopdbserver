@@ -19,16 +19,16 @@ var cafeSchema = new Schema({
   latitude: Number,
   longitude: Number,
   amenities: {
-    cardPayment: { type: Boolean, default: false },
-    halal: { type: Boolean, default: false },
-    studying: { type: Boolean, default: false },
-    parking: { type: Boolean, default: false },
-    reservations: { type: Boolean, default: false },
-    powerSocket: { type: Boolean, default: false },
-    transit: { type: Boolean, default: false },
-    vegetarian: { type: Boolean, default: false },
-    water: { type: Boolean, default: false },
-    wifi: { type: Boolean, default: false }
+    cardPayment: { type: Number, default: 0 },
+    halal: { type: Number, default: 0 },
+    studying: { type: Number, default: 0 },
+    parking: { type: Number, default: 0 },
+    reservations: { type: Number, default: 0 },
+    powerSocket: { type: Number, default: 0 },
+    transit: { type: Number, default: 0 },
+    vegetarian: { type: Number, default: 0 },
+    water: { type: Number, default: 0 },
+    wifi: { type: Number, default: 0 }
   },
   shopHours: {
     type: [
