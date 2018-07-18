@@ -38,13 +38,16 @@ var searchCafe = async (cafeName, lat, lng) => {
 var photoReferenceFromPlaceId = async placeId => {
   var results;
   var openingHours;
+  var website;
+  var rating;
+  var price_level;
   await request(
     {
       uri: "https://maps.googleapis.com/maps/api/place/details/json",
       method: "GET",
       qs: {
         placeid: placeId,
-        fields: "photo,opening_hours,url",
+        fields: "photo,opening_hours,url,website,rating,price_level",
         key: process.env.G_PLACES_API_KEY
       }
     },
@@ -55,6 +58,9 @@ var photoReferenceFromPlaceId = async placeId => {
         body = await JSON.parse(body);
         results = body.result.photos;
         openingHours = body.result.opening_hours;
+        website = body.result.website;
+        rating = body.result.rating;
+        price_level = body.result.price_level ? body.result.price_level : -1;
       }
     }
   );
@@ -64,7 +70,7 @@ var photoReferenceFromPlaceId = async placeId => {
       returnPhotoUrlFromPhotoReferenceId(results[i].photo_reference)
     );
   }
-  return [urlArray, openingHours];
+  return [urlArray, openingHours, website, rating, price_level];
 };
 
 var returnPhotoUrlFromPhotoReferenceId = photoReference => {

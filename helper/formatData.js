@@ -1,11 +1,20 @@
 const cafeModel = require("./../models/cafeModel");
 
-packageCafeModel = (rawCafeData, photoArray, openingHours) => {
+packageCafeModel = (
+  rawCafeData,
+  photoArray,
+  openingHours,
+  url,
+  rating,
+  price_level
+) => {
   openingHours = arrangeOpeningHours(openingHours);
   var package = new cafeModel.Cafe({
     name: rawCafeData.response.venue.name,
     fsVenueId: rawCafeData.response.venue.id,
-    url: rawCafeData.response.venue.canonicalUrl,
+    bloggerRating: rating,
+    priceRange: price_level,
+    url: url,
     images: photoArray,
     contactNo: rawCafeData.response.venue.contact.formattedPhone,
     address: [
