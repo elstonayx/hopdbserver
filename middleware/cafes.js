@@ -40,7 +40,6 @@ var postCafe = (req, res) => {
 
 var patchCafe = async (req, res) => {
   var fsVenueId = req.body.fsVenueId;
-  console.log(req.body);
   cafeModel.Cafe.findOne({ fsVenueId: fsVenueId }, (err, currentCafe) => {
     console.log(currentCafe);
     if (err) {
