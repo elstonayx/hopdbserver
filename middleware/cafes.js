@@ -1,5 +1,5 @@
 const cafeModel = require("./../models/cafeModel");
-const foursquare = require("./../helper/foursquare");
+const foursquare = require("../helper/extractCafe");
 const response = require("./../helper/status").response;
 
 var findCafe = (req, res) => {

@@ -1,6 +1,7 @@
 const request = require("request-promise");
 const dotenv = require("dotenv");
 const formatData = require("./formatData");
+const gplaces = require("./gplaces");
 
 dotenv.load();
 
@@ -25,7 +26,11 @@ var findCafe = async fsVenueId => {
     }
   );
   //return cafeData.response.venue.photos;
-  return formatData.packageCafeModel(cafeData);
+  const cafeName = cafeData.response.venue.name;
+  const lat = cafeData.response.venue.location.lat;
+  const lng = cafeData.response.venue.location.lng;
+  var gPlacesData = await gplaces.searchCafe(cafeName, lat, lng);
+  return formatData.packageCafeModel(cafeData, gPlacesData[0], gPlacesData[1]);
 };
 
 exports.findCafe = findCafe;

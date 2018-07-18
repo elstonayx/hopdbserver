@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-//need to add description, openingHours
+//need to add openingHours
 var cafeSchema = new Schema({
   name: { type: String, required: true },
   fsVenueId: { type: String, unique: true },
@@ -19,20 +19,6 @@ var cafeSchema = new Schema({
   latitude: Number,
   longitude: Number,
   amenities: {
-    type: Array,
-    default: [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false
-    ]
-    /*
     cardPayment: { type: Boolean, default: false },
     halal: { type: Boolean, default: false },
     studying: { type: Boolean, default: false },
@@ -43,11 +29,21 @@ var cafeSchema = new Schema({
     vegetarian: { type: Boolean, default: false },
     water: { type: Boolean, default: false },
     wifi: { type: Boolean, default: false }
-    */
+  },
+  shopHours: {
+    type: [
+      {
+        _id: false,
+        isOpened: { type: Boolean },
+        open: { type: String },
+        closed: { type: String }
+      }
+    ]
   },
   lastUpdated: Date
 });
 
+//TODO: figure out indexing
 //define index for search
 //cafeSchema.index({ fsVenueId: true });
 

@@ -1,5 +1,7 @@
 const reviewModel = require("./../models/reviewModel");
+const cafeModel = require("./../models/cafeModel");
 const response = require("./../helper/status").response;
+const gsearch = require("./../helper/gCustSearch");
 
 var postBloggerReview = (req, res) => {
   var newBloggerReview = new reviewModel.BloggerReview(req.query);
@@ -14,15 +16,40 @@ var postBloggerReview = (req, res) => {
 
 var findBloggerReview = async (req, res) => {
   var fsVenueId = req.query.fsVenueId;
-  var query;
   await reviewModel.BloggerReview.find(
     { fsVenueId: fsVenueId },
-    (err, data) => {
-      if (err) return console.log(err);
-      query = data;
+    async (err, result) => {
+      if (err) {
+        return console.log(err);
+      } else if (result.length != 0) {
+        res.json(result);
+      } else {
+        var cafeName;
+        await cafeModel.Cafe.findOne(
+          { fsVenueId: fsVenueId },
+          async (err, result) => {
+            if (err) return console.log(err);
+            else if (result == null) return console.log("no such fsVenueId");
+            else {
+              cafeName = await result.name;
+            }
+          }
+        );
+        var resultArray = await gsearch.extractBloggerReviews(cafeName);
+        for (var i = 0; i < resultArray.length; i++) {
+          var reviewDict = resultArray[i];
+          reviewDict["fsVenueId"] = fsVenueId;
+          var newBloggerReview = new reviewModel.BloggerReview(reviewDict);
+          newBloggerReview.save((err, data) => {
+            if (err) {
+              console.log(err);
+            }
+          });
+        }
+        res.json(resultArray);
+      }
     }
   );
-  res.json(query);
 };
 
 var postHopperReview = (req, res) => {

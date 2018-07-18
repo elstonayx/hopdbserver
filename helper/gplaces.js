@@ -3,29 +3,30 @@ const dotenv = require("dotenv");
 
 dotenv.load();
 
-//REQUIRES FIXING
-//BUG - cannot search by cafeName in gplaces, might come out "starbucks", but multiple starbucks locations
-var searchCafe = async cafeName => {
-  console.log(cafeName);
+var searchCafe = async (cafeName, lat, lng) => {
   var placeId;
   var results;
   //console.log(process.env.G_PLACES_API_KEY);
   await request(
     {
-      uri: "https://maps.googleapis.com/maps/api/place/textsearch/json",
+      uri: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
       method: "GET",
       qs: {
-        query: cafeName,
-        key: process.env.G_PLACES_API_KEY
+        key: process.env.G_PLACES_API_KEY,
+        input: cafeName,
+        inputtype: "textquery",
+        locationbias: "circle:100@" + lat + "," + lng
       }
     },
     async (err, res, body) => {
       if (err) {
         console.log(err);
       } else {
+        body = JSON.parse(body);
         if (body.status == "INVALID_REQUEST") console.log("Empty body.");
+        else if (body.status != "OK") console.log("error", body.status);
         else {
-          placeId = await JSON.parse(body).results[0].place_id;
+          placeId = await body.candidates[0].place_id;
         }
       }
     }
@@ -36,13 +37,14 @@ var searchCafe = async cafeName => {
 
 var photoReferenceFromPlaceId = async placeId => {
   var results;
+  var openingHours;
   await request(
     {
       uri: "https://maps.googleapis.com/maps/api/place/details/json",
       method: "GET",
       qs: {
         placeid: placeId,
-        fields: "photo",
+        fields: "photo,opening_hours,url",
         key: process.env.G_PLACES_API_KEY
       }
     },
@@ -50,10 +52,9 @@ var photoReferenceFromPlaceId = async placeId => {
       if (err) {
         console.log(err);
       } else {
-        console.log(body);
-        results = await JSON.parse(body).result.photos;
-        //console.log(results);
-        //return results;
+        body = await JSON.parse(body);
+        results = body.result.photos;
+        openingHours = body.result.opening_hours;
       }
     }
   );
@@ -63,7 +64,7 @@ var photoReferenceFromPlaceId = async placeId => {
       returnPhotoUrlFromPhotoReferenceId(results[i].photo_reference)
     );
   }
-  return urlArray;
+  return [urlArray, openingHours];
 };
 
 var returnPhotoUrlFromPhotoReferenceId = photoReference => {
