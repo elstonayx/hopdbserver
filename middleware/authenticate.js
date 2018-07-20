@@ -8,6 +8,8 @@ var addUser = (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   var newUserProfile = new userModel.User({
     userId: req.body.userId,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     password: hashedPassword,
     accountType: req.body.accountType,
     contact: {
@@ -19,9 +21,12 @@ var addUser = (req, res) => {
 
   newUserProfile.save(err => {
     if (err) {
-      if (err.code == 11000)
+      console.log(err);
+      if (err.errors["userId"].message == "10100")
         return res.json(response(401, "Please use a unique username."));
-      else return console.log(err);
+      else if (err.errors["contact.email"].message == "10101")
+        return res.json(response(401, "Please use a unique email address."));
+      //else return console.log(err);
     } else res.json(response(200, "New user successfully created!"));
   });
 };

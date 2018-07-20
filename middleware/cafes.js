@@ -17,8 +17,10 @@ var findCafe = (req, res) => {
           console.log("Pulled from Foursquare");
           cafeResults = await foursquare.findCafe(req.query.fsVenueId);
           cafeResults.save((err, data) => {
-            console.log("Saved", cafeResults.name, "to database!");
-            if (err) console.log(err);
+            if (err) {
+              console.log(err);
+              res.json(response(400, "unable to pull from Foursquare."));
+            } else console.log("Saved", cafeResults.name, "to database!");
           });
         }
         res.json(cafeResults);
