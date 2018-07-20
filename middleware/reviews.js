@@ -57,6 +57,8 @@ var postHopperReview = (req, res) => {
   var newHopperReview = new reviewModel.HopperReview(req.body);
   newHopperReview.save((err, data) => {
     if (err) return console.log(err);
+    else if (result.reviewerId == "elstonayx")
+      return res.send("xianhao is not allowed to post reviews under my name");
     res.status(200).json({
       success: true,
       message: "Successfully posted hopper review!"
