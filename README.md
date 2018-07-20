@@ -12,6 +12,7 @@ The server is used to store Cafe data, reviews, and userbase for Hop Cafe App.
 - Retrieval from Foursquare API
 - User Database
 - - Implemented bcrypt for passwords
+- Scraped Reviews using Google Custom Search API
 
 ## Routes for Client Side
 
@@ -53,7 +54,6 @@ The server is used to store Cafe data, reviews, and userbase for Hop Cafe App.
 ## To be Implemented
 
 - [ ] Save cafe crowded times data https://github.com/m-wrzr/populartimes
-- [ ] Scraper for reviews from popular blog sites
 - [ ] Reward implementation
 
 Developed By: Cheng Xian Hao and Elston Aw
