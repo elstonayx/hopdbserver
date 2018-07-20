@@ -40,6 +40,7 @@ var cafeSchema = new Schema({
       }
     ]
   },
+  noOfQueries: { type: Number, default: 0 },
   lastUpdated: Date
 });
 

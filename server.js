@@ -10,6 +10,7 @@ const config = require("./config.json");
 const authenticate = require("./middleware/authenticate");
 const gplaces = require("./helper/gplaces");
 const gsearch = require("./helper/gCustSearch");
+const listcafe = require("./helper/listcafes");
 
 const app = express();
 dotenv.load();
@@ -68,13 +69,16 @@ app.get("/foursquare/cafe", async (req, res) => {
 
 app.get("/cafe/google", async (req, res) => {
   var results = await gplaces.searchCafe(req.query.name);
-
   res.send(results);
 });
 
 app.get("/bloggerreviews/google", async (req, res) => {
   var results = await gsearch.extractBloggerReviews(req.query.name);
   res.send(results);
+});
+
+app.get("/cafe/random", async (req, res) => {
+  listcafe.randomCafe(res);
 });
 
 //Posting Cafe Data
