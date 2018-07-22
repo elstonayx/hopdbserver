@@ -37,7 +37,7 @@ var postCafe = (req, res) => {
   newCafe.save((err, data) => {
     if (err) {
       console.log(err);
-      res.send(err);
+      res.send(response(400, err));
     } else {
       res.status(200).json(data);
     }
@@ -60,11 +60,7 @@ var patchCafe = async (req, res) => {
           res.status(400).json(response(400, "Unable to save curent cafe."));
         }
       });
-      res.status(200).json({
-        success: true,
-        message:
-          "Successfully updated " + req.body.fsVenueId + " in the database."
-      });
+      res.json(response(200, "Successful!"));
     }
   });
 };
