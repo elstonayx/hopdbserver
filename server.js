@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 console.log("Starting up Hop Database Server");
+
 //connect to database and start listening on port
 mongoose.connect(
   process.env.MONGO_URI,
@@ -35,9 +36,7 @@ app.get("/", (req, res) => {
 
 /* authentication routes */
 app.post("/newuser", authenticate.addUser);
-
 app.post("/login", authenticate.userLogin);
-
 app.get("/nouserlogin", authenticate.noUserLogin);
 
 if (config.AUTH_ENABLED) {
@@ -47,18 +46,23 @@ if (config.AUTH_ENABLED) {
 /* cafe data routes */
 //Retrieving Cafe Data
 app.get("/cafe/data", cafe.findCafe);
-
 app.patch("/cafe/data", cafe.patchCafe);
 
 /* blogger review routes */
 app.get("/cafe/review/blogger", reviews.findBloggerReview);
-
 app.post("/cafe/review/blogger", reviews.postBloggerReview);
 
-/*hopper review routes */
+/* hopper review routes */
 app.post("/cafe/review/hopper", reviews.postHopperReview);
-
 app.get("/cafe/review/hopper", reviews.getHopperReview);
+
+/* for main page, finding random cafes and listing popular cafes */
+app.get("/cafe/random", async (req, res) => {
+  listcafe.randomCafe(res);
+});
+app.get("/cafe/popular", async (req, res) => {
+  listcafe.popularCafes(res);
+});
 
 /* debugging routes */
 //openPage
@@ -75,14 +79,6 @@ app.get("/cafe/google", async (req, res) => {
 app.get("/bloggerreviews/google", async (req, res) => {
   var results = await gsearch.extractBloggerReviews(req.query.name);
   res.send(results);
-});
-
-app.get("/cafe/random", async (req, res) => {
-  listcafe.randomCafe(res);
-});
-
-app.get("/cafe/popular", async (req, res) => {
-  listcafe.popularCafes(res);
 });
 
 //Posting Cafe Data
