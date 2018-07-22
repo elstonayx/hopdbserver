@@ -3,10 +3,14 @@ const cafeModel = require("./../models/cafeModel");
 const response = require("./../helper/status").response;
 const gsearch = require("./../helper/gCustSearch");
 
+//DEPRECATED - using Google Search Scraper to get blogger reviews and extracts
 var postBloggerReview = (req, res) => {
   var newBloggerReview = new reviewModel.BloggerReview(req.query);
   newBloggerReview.save((err, data) => {
-    if (err) return console.log(err);
+    if (err) {
+      res.json(response(400, err));
+      return console.log(err);
+    }
     res.status(200).json({
       success: true,
       message: "Successfully posted blogger review!"
@@ -20,6 +24,7 @@ var findBloggerReview = async (req, res) => {
     { fsVenueId: fsVenueId },
     async (err, result) => {
       if (err) {
+        res.json(response(400, err));
         return console.log(err);
       } else if (result.length != 0) {
         res.json(result);
@@ -28,9 +33,12 @@ var findBloggerReview = async (req, res) => {
         await cafeModel.Cafe.findOne(
           { fsVenueId: fsVenueId },
           async (err, result) => {
-            if (err) return console.log(err);
-            else if (result == null) return console.log("no such fsVenueId");
-            else {
+            if (err) {
+              res.json(response(400, err));
+              return console.log(err);
+            } else if (result == null) {
+              res.json(response(400, "Error. No such fsVenueId."));
+            } else {
               cafeName = await result.name;
             }
           }
@@ -42,6 +50,7 @@ var findBloggerReview = async (req, res) => {
           var newBloggerReview = new reviewModel.BloggerReview(reviewDict);
           newBloggerReview.save((err, data) => {
             if (err) {
+              res.json(response(400, "Error! Blogger Review save failed."));
               console.log(err);
             }
           });
@@ -56,11 +65,11 @@ var postHopperReview = (req, res) => {
   console.log(req.body);
   var newHopperReview = new reviewModel.HopperReview(req.body);
   newHopperReview.save((err, data) => {
-    if (err) return console.log(err);
-    res.status(200).json({
-      success: true,
-      message: "Successfully posted hopper review!"
-    });
+    if (err) {
+      res.json(response(400, err));
+      return console.log(err);
+    }
+    res.json(response(200, "Successfully posted hopper review!"));
   });
 };
 

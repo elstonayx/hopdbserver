@@ -40,7 +40,8 @@ var cafeSchema = new Schema({
       }
     ]
   },
-  noOfQueries: { type: Number, default: 0 },
+  noOfHopperReviews: { type: Number, default: 0 },
+  noOfTimesQueried: { type: Number, default: 1 },
   lastUpdated: Date
 });
 
