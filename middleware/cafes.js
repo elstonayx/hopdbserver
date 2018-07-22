@@ -14,15 +14,18 @@ var findCafe = (req, res) => {
           res.send(err);
         }
         if (data == null) {
-          console.log("Pulled from Foursquare");
+          console.log("Pulling from Foursquare...");
           cafeResults = await foursquare.findCafe(req.query.fsVenueId);
-          cafeResults.save((err, data) => {
+          await cafeResults.save((err, data) => {
             if (err) {
               console.log(err);
               res.json(response(400, "unable to pull from Foursquare."));
-            } else console.log("Saved", cafeResults.name, "to database!");
+            } else {
+              console.log("Saved", cafeResults.name, "to database!");
+              countQueries(req.query.fsVenueId);
+            }
           });
-        }
+        } else await countQueries(req.query.fsVenueId);
         res.json(cafeResults);
       }
     );
@@ -63,6 +66,20 @@ var patchCafe = async (req, res) => {
       });
     }
   });
+};
+
+var countQueries = fsVenueId => {
+  cafeModel.Cafe.findOneAndUpdate(
+    { fsVenueId: fsVenueId },
+    { $inc: { noOfTimesQueried: 1 } },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else if (result == null) {
+        console.log("NULL ERROR FOR ADDING QUERIES");
+      }
+    }
+  );
 };
 
 exports.findCafe = findCafe;

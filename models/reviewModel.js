@@ -6,8 +6,6 @@ var bloggerReviewSchema = new Schema({
   fsVenueId: { type: String, required: true },
   url: { type: String, required: true },
   reviewSite: String,
-  //reviewDate: String,
-  //reviewerName: String,
   title: String,
   extract: { type: String }
 });
