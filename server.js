@@ -81,5 +81,9 @@ app.get("/cafe/random", async (req, res) => {
   listcafe.randomCafe(res);
 });
 
+app.get("/cafe/popular", async (req, res) => {
+  listcafe.popularCafes(res);
+});
+
 //Posting Cafe Data
 app.post("/cafe/data", cafe.postCafe);
