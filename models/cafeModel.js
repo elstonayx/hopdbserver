@@ -42,6 +42,7 @@ var cafeSchema = new Schema({
   },
   noOfHopperReviews: { type: Number, default: 0 },
   noOfTimesQueried: { type: Number, default: 1 },
+  tags: [String],
   lastUpdated: Date
 });
 

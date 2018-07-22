@@ -22,7 +22,7 @@ var findCafe = (req, res) => {
               res.json(response(400, "unable to pull from Foursquare."));
             } else {
               console.log("Saved", cafeResults.name, "to database!");
-              countQueries(req.query.fsVenueId);
+              countQueries(req.query.fsVenueId); //added such that the next query will be consistent
             }
           });
         } else await countQueries(req.query.fsVenueId);
@@ -31,6 +31,7 @@ var findCafe = (req, res) => {
     );
 };
 
+//DEPRECATED - extracting cafes from foursquare already
 var postCafe = (req, res) => {
   var newCafe = new cafeModel.Cafe(req.body);
   newCafe.save((err, data) => {
