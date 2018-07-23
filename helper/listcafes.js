@@ -8,7 +8,6 @@ var randomCafe = async res => {
       .skip(random)
       .exec((err, result) => {
         if (err) res.send(err);
-        console.log(result);
         res.json(result);
       });
   });

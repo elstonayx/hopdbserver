@@ -62,14 +62,15 @@ var findBloggerReview = async (req, res) => {
 };
 
 var postHopperReview = (req, res) => {
-  console.log(req.body);
   var newHopperReview = new reviewModel.HopperReview(req.body);
   newHopperReview.save((err, data) => {
     if (err) {
       res.json(response(400, err));
       return console.log(err);
+    } else {
+      res.json(response(200, "Successfully posted hopper review!"));
+      updateHopperRatings(req.body.fsVenueId);
     }
-    res.json(response(200, "Successfully posted hopper review!"));
   });
 };
 
@@ -86,6 +87,31 @@ var getHopperReview = async (req, res) => {
   res.status(200).json(query);
 };
 
+var updateHopperRatings = fsVenueId => {
+  reviewModel.HopperReview.aggregate([
+    {
+      $match: { fsVenueId: fsVenueId }
+    },
+    {
+      $group: {
+        _id: fsVenueId,
+        avg: { $avg: "$rating" }
+      }
+    }
+  ]).exec((err, result) => {
+    console.log(result[0].avg);
+    if (err) {
+      console.log(err);
+    } else {
+      cafeModel.Cafe.findOneAndUpdate(
+        { fsVenueId: fsVenueId },
+        {
+          hopperRating: result[0].avg
+        }
+      ).exec();
+    }
+  });
+};
 exports.findBloggerReview = findBloggerReview;
 exports.postBloggerReview = postBloggerReview;
 
