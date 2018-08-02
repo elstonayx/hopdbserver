@@ -57,7 +57,7 @@ var patchCafe = async (req, res) => {
       currentCafe.save(err => {
         if (err) {
           console.log(err);
-          res.status(400).json(response(400, "Unable to save curent cafe."));
+          res.status(400).json(response(400, "Unable to save current cafe."));
         }
       });
       res.json(response(200, "Successful!"));

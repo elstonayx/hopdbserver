@@ -55,5 +55,6 @@ The server is used to store Cafe data, reviews, and userbase for Hop Cafe App.
 
 - [ ] Save cafe crowded times data https://github.com/m-wrzr/populartimes
 - [ ] Reward implementation
+- [ ] shift main query into backend, and search by tags/location
 
 Developed By: Cheng Xian Hao and Elston Aw

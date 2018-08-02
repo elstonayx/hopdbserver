@@ -13,7 +13,7 @@ var userSchema = new Schema({
     email: String,
     phone: String
   },
-  reviewCount: Number,
+  reviewCount: { type: Number, default: 0 },
   reward: {
     points: Number
   },
