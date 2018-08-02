@@ -1,5 +1,7 @@
 const reviewModel = require("./../models/reviewModel");
 const cafeModel = require("./../models/cafeModel");
+const userModel = require("./../models/userModel");
+
 const response = require("./../helper/status").response;
 const gsearch = require("./../helper/gCustSearch");
 
@@ -72,6 +74,7 @@ var postHopperReview = (req, res) => {
       updateHopperRatings(req.body.fsVenueId);
     }
   });
+  updateUserReviewCount(req.body.reviewerId);
 };
 
 var getHopperReview = async (req, res) => {
@@ -112,6 +115,14 @@ var updateHopperRatings = fsVenueId => {
     }
   });
 };
+
+var updateUserReviewCount = userId => {
+  userModel.User.findOneAndUpdate(
+    { userId: userId },
+    { $inc: { reviewCount: 1 } }
+  );
+};
+
 exports.findBloggerReview = findBloggerReview;
 exports.postBloggerReview = postBloggerReview;
 

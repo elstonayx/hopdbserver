@@ -8,6 +8,7 @@ const reviews = require("./middleware/reviews");
 const foursquareCall = require("./helper/extractCafe");
 const config = require("./config.json");
 const authenticate = require("./middleware/authenticate");
+const users = require("./middleware/users");
 const gplaces = require("./helper/gplaces");
 const gsearch = require("./helper/gCustSearch");
 const listcafe = require("./helper/listcafes");
@@ -34,8 +35,11 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
+/* user routes */
+app.post("/newuser", users.addUser);
+app.patch("/user", users.modifyUser);
+
 /* authentication routes */
-app.post("/newuser", authenticate.addUser);
 app.post("/login", authenticate.userLogin);
 app.get("/nouserlogin", authenticate.noUserLogin);
 

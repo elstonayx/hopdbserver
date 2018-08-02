@@ -8,7 +8,7 @@ var cafeSchema = new Schema({
   fsVenueId: { type: String, unique: true },
   bloggerRating: { type: Number, min: -1, max: 5, default: -1 },
   hopperRating: { type: Number, min: -1, max: 5, default: -1 },
-  priceRange: { type: Number, min: -1, max: 5 },
+  priceRange: { type: Number, min: -1, max: 5, default: -1 },
   images: [String],
   url: String,
   facebookPage: String,
@@ -40,7 +40,6 @@ var cafeSchema = new Schema({
       }
     ]
   },
-  //noOfHopperReviews: { type: Number, default: 0 },
   noOfTimesQueried: { type: Number, default: 1 },
   tags: [String],
   lastUpdated: Date
