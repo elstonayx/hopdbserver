@@ -9,12 +9,11 @@ var addUser = (req, res) => {
   //TODO: checks for password - can be done on both client or server side
   //console.log(req.body);
   //if (!req.body.length) res.json(response(400, "No data sent"));
-  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   var newUserProfile = new userModel.User({
     userId: req.body.userId,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    password: hashedPassword,
+    password: req.body.password,
     accountType: req.body.accountType,
     contact: {
       email: req.body.contact.email,

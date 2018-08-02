@@ -22,7 +22,12 @@ var userLogin = (req, res) => {
               LoggedInDate: Date.now()
             };
             var token = jwt.sign(payload, process.env.JWT_SECRET);
-            res.json({ success: true, statusCode: 200, token: String(token) });
+            res.json({
+              success: true,
+              statusCode: 200,
+              token: String(token),
+              data
+            });
           }
         }
       );

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
@@ -6,7 +7,7 @@ var userSchema = new Schema({
   userId: { type: String, required: true },
   firstName: String,
   lastName: String,
-  password: { type: String, required: true },
+  password: { type: String, required: true, set: hashPassword },
   //profilePhoto: String,
   accountType: Number,
   contact: {
@@ -20,6 +21,10 @@ var userSchema = new Schema({
   accountCreatedOn: Date,
   lastLoggedIn: Date
 });
+
+function hashPassword(password) {
+  return bcrypt.hashSync(password, 10);
+}
 
 userSchema.path("userId").validate(async value => {
   var result;
