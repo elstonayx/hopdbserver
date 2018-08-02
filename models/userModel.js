@@ -18,7 +18,7 @@ var userSchema = new Schema({
   reward: {
     points: Number
   },
-  accountCreatedOn: Date,
+  accountCreatedOn: Number,
   lastLoggedIn: Date
 });
 

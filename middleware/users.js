@@ -19,7 +19,7 @@ var addUser = (req, res) => {
       email: req.body.contact.email,
       phone: req.body.contact.phone
     },
-    accountCreatedOn: Date.now()
+    accountCreatedOn: req.body.date
   });
 
   newUserProfile.save(err => {
