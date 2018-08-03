@@ -123,10 +123,10 @@ var updateHopperReviewCount = userId => {
   );
 };
 
-var retrieveHopperReviewsByHopperId = (req, res) => {
+var retrieveHopperReviewsByHopperId = async (req, res) => {
   const userId = req.query.userId;
-  userModel.User.find({ userId: userId })
-    .sort("reviewDate", -1)
+  await reviewModel.HopperReview.find({ reviewerId: userId })
+    .sort({ reviewDate: -1 })
     .exec((err, results) => {
       if (err) {
         console.log(err);
@@ -137,10 +137,27 @@ var retrieveHopperReviewsByHopperId = (req, res) => {
     });
 };
 
+var updateHopperReview = (req, res) => {
+  const reviewId = req.body.reviewId;
+  reviewModel.HopperReview.findByIdAndUpdate(
+    reviewId,
+    { rating: req.body.rating, content: req.body.content },
+    err => {
+      if (err) {
+        console.log(err);
+        res.json(response(400, err));
+      } else {
+        res.json(response(200, "Success!"));
+      }
+    }
+  );
+};
+
 exports.findBloggerReview = findBloggerReview;
 exports.postBloggerReview = postBloggerReview;
 
 exports.postHopperReview = postHopperReview;
 exports.getHopperReview = getHopperReview;
+exports.updateHopperReview = updateHopperReview;
 
 exports.retrieveHopperReviewsByHopperId = retrieveHopperReviewsByHopperId;
