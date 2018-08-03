@@ -34,24 +34,21 @@ var addUser = (req, res) => {
   });
 };
 
-//figure out fix for this, validation parts
+//potential bug - could use same route to edit other people's user profile
+//do check
 var modifyUser = (req, res) => {
-  userModel.User.findOne({ userId: req.body.userId }, (err, currentUser) => {
-    if (err) {
-      console.log(err);
-      res.json(response(400, "Unable to find user,"));
-    } else {
-      currentUser.set(req.body);
-      currentUser.save({ validateBeforeSave: false }, err => {
-        if (err) {
-          console.log(err);
-          res.json(response(400, "unable to save current cafe"));
-        } else {
-          res.json(response(200, "successful!"));
-        }
-      });
+  userModel.User.updateOne(
+    { userId: req.body.userId },
+    req.body,
+    (err, currentUser) => {
+      if (err) {
+        console.log(err);
+        res.json(response(400, "Unable to find any user."));
+      } else {
+        res.json(response(200, "Successful!"));
+      }
     }
-  });
+  );
 };
 
 exports.addUser = addUser;
