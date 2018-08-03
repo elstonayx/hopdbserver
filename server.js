@@ -60,6 +60,7 @@ app.post("/cafe/review/blogger", reviews.postBloggerReview);
 app.post("/cafe/review/hopper", reviews.postHopperReview);
 app.get("/cafe/review/hopper", reviews.getHopperReview);
 app.get("/cafe/review/hopper/all", reviews.retrieveHopperReviewsByHopperId);
+app.patch("/cafe/review/hopper", reviews.updateHopperReview);
 
 /* for main page, finding random cafes and listing popular cafes */
 app.get("/cafe/random", async (req, res) => {
