@@ -2,8 +2,7 @@ const cafeModel = require("./../models/cafeModel");
 
 var randomCafe = async res => {
   await cafeModel.Cafe.count(async (err, count) => {
-    var random = Math.floor(Math.random * count);
-
+    var random = Math.floor(Math.random() * count);
     await cafeModel.Cafe.findOne()
       .skip(random)
       .exec((err, result) => {
