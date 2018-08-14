@@ -102,7 +102,7 @@ var updateHopperRatings = fsVenueId => {
       }
     }
   ]).exec((err, result) => {
-    console.log(result[0].avg);
+    //console.log(result[0].avg);
     if (err) {
       console.log(err);
     } else {
@@ -117,9 +117,15 @@ var updateHopperRatings = fsVenueId => {
 };
 
 var updateHopperReviewCount = userId => {
+  console.log("updateReviewCount");
+  console.log(userId);
   userModel.User.findOneAndUpdate(
     { userId: userId },
-    { $inc: { reviewCount: 1 } }
+    { $inc: { reviewCount: 1 } },
+    (err, doc) => {
+      if (err) console.log(err);
+      console.log(doc);
+    }
   );
 };
 
