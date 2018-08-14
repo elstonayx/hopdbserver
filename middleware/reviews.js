@@ -72,9 +72,9 @@ var postHopperReview = (req, res) => {
     } else {
       res.json(response(200, "Successfully posted hopper review!"));
       updateHopperRatings(req.body.fsVenueId);
+      updateHopperReviewCount(req.body.reviewerId);
     }
   });
-  updateHopperReviewCount(req.body.reviewerId);
 };
 
 var getHopperReview = async (req, res) => {
