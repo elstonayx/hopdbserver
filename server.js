@@ -12,6 +12,7 @@ const users = require("./middleware/users");
 const gplaces = require("./helper/gplaces");
 const gsearch = require("./helper/gCustSearch");
 const listcafe = require("./helper/listcafes");
+const fuzzySearch = require("./helper/simpleFuzzySearch");
 
 const app = express();
 dotenv.load();
@@ -43,9 +44,10 @@ app.patch("/user", users.modifyUser);
 app.post("/login", authenticate.userLogin);
 app.get("/nouserlogin", authenticate.noUserLogin);
 
+/*
 if (config.AUTH_ENABLED) {
   app.use("/", authenticate.verifyToken);
-}
+}*/
 
 /* cafe data routes */
 //Retrieving Cafe Data
@@ -89,3 +91,8 @@ app.get("/bloggerreviews/google", async (req, res) => {
 
 //Posting Cafe Data
 app.post("/cafe/data", cafe.postCafe);
+
+app.get("/search/fuzzy", async (req, res) => {
+  var results = await fuzzySearch.findCafe(req.query.query);
+  res.send(results);
+});
