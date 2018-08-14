@@ -124,7 +124,7 @@ var updateHopperReviewCount = userId => {
     { $inc: { reviewCount: 1 } },
     (err, doc) => {
       if (err) console.log(err);
-      console.log(doc);
+      //console.log(doc);
     }
   );
 };
