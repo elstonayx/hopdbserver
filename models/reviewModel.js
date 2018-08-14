@@ -12,6 +12,7 @@ var bloggerReviewSchema = new Schema({
 
 var hopperReviewSchema = new Schema({
   fsVenueId: { type: String, required: true },
+  cafeName: { type: String, required: true },
   reviewerId: { type: String, required: true },
   reviewDate: Number,
   rating: { type: Number, min: 0, max: 5 },
