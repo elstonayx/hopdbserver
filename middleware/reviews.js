@@ -146,7 +146,7 @@ var retrieveHopperReviewsByHopperId = async (req, res) => {
 var updateHopperReview = (req, res) => {
   const reviewId = req.body.reviewId;
   reviewModel.HopperReview.findByIdAndUpdate(
-    reviewId,
+    _id,
     { rating: req.body.rating, content: req.body.content },
     err => {
       if (err) {
