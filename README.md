@@ -16,6 +16,10 @@ The server is used to store Cafe data, reviews, and userbase for Hop Cafe App.
 
 ## Routes for Client Side
 
+- GET /search/fuzzy
+- params: query (name or location)
+- description: search for cafe by general location or by name
+
 - GET /cafe/data
 - params: fsVenueId
 
