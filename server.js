@@ -13,6 +13,7 @@ const gplaces = require("./helper/gplaces");
 const gsearch = require("./helper/gCustSearch");
 const listcafe = require("./helper/listcafes");
 const fuzzySearch = require("./helper/simpleFuzzySearch");
+const saveCafe = require("./middleware/savedCafe");
 
 const app = express();
 dotenv.load();
@@ -34,6 +35,12 @@ mongoose.connect(
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
+});
+
+/* Fuzzy Search Route */
+app.get("/search/fuzzy", async (req, res) => {
+  var results = await fuzzySearch.findCafe(req.query.query);
+  res.send(results);
 });
 
 /* user routes */
@@ -92,7 +99,6 @@ app.get("/bloggerreviews/google", async (req, res) => {
 //Posting Cafe Data
 app.post("/cafe/data", cafe.postCafe);
 
-app.get("/search/fuzzy", async (req, res) => {
-  var results = await fuzzySearch.findCafe(req.query.query);
-  res.send(results);
-});
+app.post("/cafe/save", saveCafe.saveCafeToUser);
+
+app.delete("/cafe/save", saveCafe.deleteCafeFromUser);

@@ -19,6 +19,7 @@ var userSchema = new Schema({
     points: Number
   },
   accountCreatedOn: Number,
+  savedCafes: [String], //include name, fsVenueId, photos
   lastLoggedIn: Date
 });
 
@@ -50,3 +51,7 @@ userSchema.path("contact.email").validate(async value => {
 module.exports = {
   User: mongoose.model("users", userSchema)
 };
+
+//HI USER MODEL
+//CAN I HAZ SAVE FAVOURITE CAFE FUNCTION
+//THX
