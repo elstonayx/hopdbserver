@@ -153,10 +153,22 @@ var updateHopperReview = (req, res) => {
         console.log(err);
         res.json(response(400, err));
       } else {
-        res.json(response(200, "Success!"));
+        res.json(response(200, "Successfully updated Hopper Review!"));
       }
     }
   );
+};
+
+var deleteHopperReview = (req, res) => {
+  const reviewId = req.body["_id"];
+  reviewModel.HopperReview.findByIdAndRemove(reviewId, err => {
+    if (err) {
+      console.log(err);
+      res.json(response(400, err));
+    } else {
+      res.json(response(200, "Successfully deleted Hopper Review!"));
+    }
+  });
 };
 
 exports.findBloggerReview = findBloggerReview;
@@ -165,5 +177,6 @@ exports.postBloggerReview = postBloggerReview;
 exports.postHopperReview = postHopperReview;
 exports.getHopperReview = getHopperReview;
 exports.updateHopperReview = updateHopperReview;
+exports.deleteHopperReview = deleteHopperReview;
 
 exports.retrieveHopperReviewsByHopperId = retrieveHopperReviewsByHopperId;
