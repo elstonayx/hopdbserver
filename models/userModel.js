@@ -19,7 +19,16 @@ var userSchema = new Schema({
     points: Number
   },
   accountCreatedOn: Number,
-  savedCafes: [String], //include name, fsVenueId, photos
+  savedCafes: {
+    type: [
+      {
+        _id: false,
+        fsVenueId: String,
+        name: String,
+        thumbnail: String
+      }
+    ]
+  },
   lastLoggedIn: Date
 });
 

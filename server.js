@@ -51,10 +51,9 @@ app.patch("/user", users.modifyUser);
 app.post("/login", authenticate.userLogin);
 app.get("/nouserlogin", authenticate.noUserLogin);
 
-/*
 if (config.AUTH_ENABLED) {
   app.use("/", authenticate.verifyToken);
-}*/
+}
 
 /* cafe data routes */
 //Retrieving Cafe Data
@@ -70,6 +69,7 @@ app.post("/cafe/review/hopper", reviews.postHopperReview);
 app.get("/cafe/review/hopper", reviews.getHopperReview);
 app.get("/cafe/review/hopper/all", reviews.retrieveHopperReviewsByHopperId);
 app.patch("/cafe/review/hopper", reviews.updateHopperReview);
+app.delete("/cafe/review/hopper", reviews.deleteHopperReview);
 
 /* for main page, finding random cafes and listing popular cafes */
 app.get("/cafe/random", async (req, res) => {
