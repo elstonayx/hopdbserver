@@ -1,15 +1,16 @@
 const request = require("request-promise");
+const cafeModel = require("./../models/cafeModel");
 const dotenv = require("dotenv");
 
 var findCafe = async query => {
   var results = [];
-  var locationCafe = await findCafeByLocation(query);
-  var nameCafe = await findCafeByName(query);
+  var locationCafe = findCafeByLocation(query);
+  var nameCafe = findCafeByName(query);
   if (!nameCafe.empty) {
-    results = results.concat(nameCafe);
+    results = results.concat(await nameCafe);
   }
   if (!locationCafe.empty) {
-    results = results.concat(locationCafe);
+    results = results.concat(await locationCafe);
   }
   return results;
 };
@@ -113,7 +114,22 @@ var parseCafeDataByName = async cafeData => {
 var parseFormattedAddress = addressData => {
   if (addressData.length == 3) {
     return addressData[0] + " " + addressData[2] + " " + addressData[1];
-  } else return "Unknown Address";
+  } else {
+    /*var result;
+    await cafeModel.Cafe.findOne(
+      { fsVenueId: fsVenueId },
+      async (err, data) => {
+        if (err || data == null) {
+          result = "Unknown Address";
+        } else {
+          result = data.address;
+        }
+      }
+    );
+    return result;
+  }*/
+    return "Unknown Address";
+  }
 };
 
 var fetchThumbnailFromId = async fsVenueId => {
