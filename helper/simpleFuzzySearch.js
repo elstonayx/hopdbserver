@@ -1,16 +1,15 @@
 const request = require("request-promise");
 const dotenv = require("dotenv");
 
-//to be fixed so that photos are fetched too
 var findCafe = async query => {
   var results = [];
   var locationCafe = await findCafeByLocation(query);
   var nameCafe = await findCafeByName(query);
-  if (nameCafe.meta.code != 400) {
-    results = results.concat(nameCafe.response.group.results);
+  if (!nameCafe.empty) {
+    results = results.concat(nameCafe);
   }
-  if (locationCafe.meta.code != 400) {
-    //results = results.concat(locationCafe.response.group.results);
+  if (!locationCafe.empty) {
+    results = results.concat(locationCafe);
   }
   return results;
 };
@@ -36,7 +35,7 @@ var findCafeByLocation = async query => {
       if (err) {
         console.log(err);
       } else {
-        cafeData = JSON.parse(body);
+        cafeData = parseCafeDataByLocation(JSON.parse(body));
       }
     }
   );
@@ -47,7 +46,7 @@ var findCafeByName = async query => {
   var cafeData;
   await request(
     {
-      url: "https://api.foursquare.com/v2/search/recommendations?",
+      url: "https://api.foursquare.com/v2/venues/search?",
       method: "GET",
       qs: {
         near: "Singapore",
@@ -64,17 +63,85 @@ var findCafeByName = async query => {
       if (err) console.log(err);
       else {
         cafeData = JSON.parse(body);
+        cafeData = parseCafeDataByName(cafeData);
       }
     }
   );
   return cafeData;
 };
 
-exports.findCafe = findCafe;
+var parseCafeDataByLocation = cafeData => {
+  if (cafeData.meta.code == 400) return [];
 
-//process:
-//1. get from /venues/search
-//2. save name and fsVenueId from that result
-//3. call photo search
-//4. save thumbnail from that result
-//5. return results
+  var results = [];
+  for (var i = 0; i < cafeData.response.group.results.length; i++) {
+    results.push({
+      fsVenueId: cafeData.response.group.results[i].venue.id,
+      name: cafeData.response.group.results[i].venue.name,
+      thumbnail:
+        cafeData.response.group.results[i].photo == null
+          ? null
+          : cafeData.response.group.results[i].photo.prefix +
+            "90x90" +
+            cafeData.response.group.results[i].photo.suffix,
+      address: parseFormattedAddress(
+        cafeData.response.group.results[i].venue.location.formattedAddress
+      )
+    });
+  }
+  return results;
+};
+
+var parseCafeDataByName = async cafeData => {
+  var results = [];
+  var photoUrl;
+  for (var i = 0; i < cafeData.response.venues.length; i++) {
+    photoUrl = await fetchThumbnailFromId(cafeData.response.venues[i].id);
+    results.push({
+      fsVenueId: cafeData.response.venues[i].id,
+      name: cafeData.response.venues[i].name,
+      address: parseFormattedAddress(
+        cafeData.response.venues[i].location.formattedAddress
+      ),
+      thumbnail: photoUrl
+    });
+  }
+
+  return results;
+};
+
+var parseFormattedAddress = addressData => {
+  if (addressData.length == 3) {
+    return addressData[0] + " " + addressData[2] + " " + addressData[1];
+  } else return "Unknown Address";
+};
+
+var fetchThumbnailFromId = async fsVenueId => {
+  var results;
+  await request(
+    {
+      url: "https://api.foursquare.com/v2/venues/" + fsVenueId + "/photos",
+      method: "GET",
+      qs: {
+        client_id: process.env.FOURSQUARE_CLIENT_ID,
+        client_secret: process.env.FOURSQUARE_CLIENT_SECRET,
+        v: "20180701",
+        limit: 1
+      }
+    },
+    function(err, res, body) {
+      if (err) console.log(err);
+      else {
+        photoData = JSON.parse(body);
+        if (photoData.response.photos.count != 0)
+          results =
+            photoData.response.photos.items[0].prefix +
+            "90x90" +
+            photoData.response.photos.items[0].suffix;
+      }
+    }
+  );
+  return results;
+};
+
+exports.findCafe = findCafe;
