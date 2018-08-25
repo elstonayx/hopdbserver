@@ -165,7 +165,7 @@ var deleteHopperReview = (req, res) => {
       res.json(response(400, err));
     } else {
       res.json(response(200, "Successfully deleted Hopper Review!"));
-      updateHopperReviewCount(userId, -1);
+      updateHopperReviewCount(req.body.userId, -1);
     }
   });
 };
