@@ -1,13 +1,11 @@
 const userModel = require("./../models/userModel");
 const response = require("./../helper/status").response;
 const request = require("request-promise");
-const dotenv = require("dotenv");
 
 //to be fixed based on current model
 var saveCafeToUser = async (req, res) => {
   const fsVenueId = req.body.fsVenueId;
   const data = await fetchFsInformation(fsVenueId);
-  console.log(data);
   await userModel.User.findOneAndUpdate(
     { userId: req.body.userId },
     { $addToSet: { savedCafes: data } },

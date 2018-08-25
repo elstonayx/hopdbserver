@@ -72,7 +72,7 @@ var postHopperReview = (req, res) => {
     } else {
       res.json(response(200, "Successfully posted hopper review!"));
       updateHopperRatings(req.body.fsVenueId);
-      updateHopperReviewCount(req.body.reviewerId);
+      updateHopperReviewCount(req.body.reviewerId, 1);
     }
   });
 };
@@ -116,12 +116,10 @@ var updateHopperRatings = fsVenueId => {
   });
 };
 
-var updateHopperReviewCount = userId => {
-  console.log("updateReviewCount");
-  console.log(userId);
+var updateHopperReviewCount = (userId, add) => {
   userModel.User.findOneAndUpdate(
     { userId: userId },
-    { $inc: { reviewCount: 1 } },
+    { $inc: { reviewCount: add } },
     (err, doc) => {
       if (err) console.log(err);
       //console.log(doc);
@@ -167,6 +165,7 @@ var deleteHopperReview = (req, res) => {
       res.json(response(400, err));
     } else {
       res.json(response(200, "Successfully deleted Hopper Review!"));
+      updateHopperReviewCount(userId, -1);
     }
   });
 };
