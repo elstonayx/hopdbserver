@@ -4,10 +4,10 @@ const request = require("request-promise");
 
 //to be fixed based on current model
 var saveCafeToUser = async (req, res) => {
-  const fsVenueId = req.body.fsVenueId;
+  const fsVenueId = req.query.fsVenueId;
   const data = await fetchFsInformation(fsVenueId);
   await userModel.User.findOneAndUpdate(
-    { userId: req.body.userId },
+    { userId: req.query.userId },
     { $addToSet: { savedCafes: data } },
     (err, doc) => {
       if (err || !doc) {
@@ -17,7 +17,7 @@ var saveCafeToUser = async (req, res) => {
         res.send(
           response(
             200,
-            "successfully added " + fsVenueId + " into " + req.body.userId
+            "successfully added " + fsVenueId + " into " + req.query.userId
           )
         );
       }
@@ -27,8 +27,8 @@ var saveCafeToUser = async (req, res) => {
 
 var deleteCafeFromUser = async (req, res) => {
   await userModel.User.findOneAndUpdate(
-    { userId: req.body.userId },
-    { $pull: { savedCafes: { fsVenueId: req.body.fsVenueId } } },
+    { userId: req.query.userId },
+    { $pull: { savedCafes: { fsVenueId: req.query.fsVenueId } } },
     (err, doc) => {
       if (err || !doc) {
         console.log(err);
@@ -38,9 +38,9 @@ var deleteCafeFromUser = async (req, res) => {
           response(
             200,
             "Successfully removed " +
-              req.body.fsVenueId +
+              req.query.fsVenueId +
               " from " +
-              req.body.userId
+              req.query.userId
           )
         );
     }
