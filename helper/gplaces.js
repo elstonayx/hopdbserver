@@ -71,7 +71,6 @@ var photoReferenceFromPlaceId = async placeId => {
       }
     }
   );
-  if (body.status == "INVALID_REQUEST") return;
   var urlArray = [];
   for (var i = 0; i < results.length && i < 5; i++) {
     urlArray.push(
