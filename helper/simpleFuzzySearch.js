@@ -129,7 +129,7 @@ var parseFormattedAddress = addressData => {
     );
     return result;
   }*/
-    return addressData;
+    return addressData.join();
   } else return "Unknown Address";
 };
 
