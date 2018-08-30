@@ -115,7 +115,7 @@ var parseCafeDataByName = async cafeData => {
 var parseFormattedAddress = addressData => {
   if (addressData.length == 3) {
     return addressData[0] + " " + addressData[2] + " " + addressData[1];
-  } else {
+  } else if (addressData.length != 0) {
     /*var result;
     await cafeModel.Cafe.findOne(
       { fsVenueId: fsVenueId },
@@ -129,8 +129,8 @@ var parseFormattedAddress = addressData => {
     );
     return result;
   }*/
-    return "Unknown Address";
-  }
+    return addressData;
+  } else return "Unknown Address";
 };
 
 var fetchThumbnailFromId = async fsVenueId => {
