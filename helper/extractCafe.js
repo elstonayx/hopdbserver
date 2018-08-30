@@ -30,14 +30,16 @@ var findCafe = async fsVenueId => {
   const lat = cafeData.response.venue.location.lat;
   const lng = cafeData.response.venue.location.lng;
   var gPlacesData = await gplaces.searchCafe(cafeName, lat, lng);
-  return formatData.packageCafeModel(
-    cafeData,
-    gPlacesData[0],
-    gPlacesData[1],
-    gPlacesData[2],
-    gPlacesData[3],
-    gPlacesData[4]
-  );
+  if (gPlacesData != null) {
+    return formatData.packageCafeModel(
+      cafeData,
+      gPlacesData[0],
+      gPlacesData[1],
+      gPlacesData[2],
+      gPlacesData[3],
+      gPlacesData[4]
+    );
+  } else return formatData.packageCafeModel(cafeData);
 };
 
 exports.findCafe = findCafe;
