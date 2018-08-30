@@ -61,6 +61,7 @@ var findCafeByName = async query => {
       }
     },
     function(err, res, body) {
+      console.log(body);
       if (err) console.log(err);
       else {
         cafeData = JSON.parse(body);

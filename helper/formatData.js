@@ -44,8 +44,11 @@ function arrangeOpeningHours(openingHours) {
     resultArray[openingHours.periods[i].open.day].isOpened = true;
     resultArray[openingHours.periods[i].open.day].open =
       openingHours.periods[i].open.time;
-    resultArray[openingHours.periods[i].open.day].closed =
-      openingHours.periods[i].close.time;
+    resultArray[openingHours.periods[i].open.day].closed = openingHours.periods[
+      i
+    ].close
+      ? openingHours.periods[i].close.time
+      : "0000";
   }
   return resultArray;
 }

@@ -72,10 +72,12 @@ var photoReferenceFromPlaceId = async placeId => {
     }
   );
   var urlArray = [];
-  for (var i = 0; i < results.length && i < 5; i++) {
-    urlArray.push(
-      returnPhotoUrlFromPhotoReferenceId(results[i].photo_reference)
-    );
+  if (results != null) {
+    for (var i = 0; i < results.length && i < 5; i++) {
+      urlArray.push(
+        returnPhotoUrlFromPhotoReferenceId(results[i].photo_reference)
+      );
+    }
   }
   return [urlArray, openingHours, website, rating, price_level];
 };
