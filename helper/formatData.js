@@ -8,7 +8,7 @@ packageCafeModel = (
   rating,
   price_level
 ) => {
-  openingHours = arrangeOpeningHours(openingHours);
+  if (openingHours != null) openingHours = arrangeOpeningHours(openingHours);
   var package = new cafeModel.Cafe({
     name: rawCafeData.response.venue.name,
     fsVenueId: rawCafeData.response.venue.id,

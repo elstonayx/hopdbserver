@@ -24,13 +24,17 @@ var searchCafe = async (cafeName, lat, lng) => {
       } else {
         body = JSON.parse(body);
         if (body.status == "INVALID_REQUEST") console.log("Empty body.");
-        else if (body.status != "OK") console.log("error", body.status);
-        else {
+        else if (body.status != "OK") {
+          console.log("gplaces error", body.status);
+        } else {
           placeId = await body.candidates[0].place_id;
         }
       }
     }
   );
+  if (!placeId) {
+    return null;
+  }
   results = await photoReferenceFromPlaceId(placeId);
   return results;
 };
@@ -41,6 +45,7 @@ var photoReferenceFromPlaceId = async placeId => {
   var website;
   var rating;
   var price_level;
+  var body;
   await request(
     {
       uri: "https://maps.googleapis.com/maps/api/place/details/json",
@@ -56,14 +61,17 @@ var photoReferenceFromPlaceId = async placeId => {
         console.log(err);
       } else {
         body = await JSON.parse(body);
-        results = body.result.photos;
-        openingHours = body.result.opening_hours;
-        website = body.result.website;
-        rating = body.result.rating;
-        price_level = body.result.price_level ? body.result.price_level : -1;
+        if (body.status == "OK") {
+          results = body.result.photos;
+          openingHours = body.result.opening_hours;
+          website = body.result.website;
+          rating = body.result.rating;
+          price_level = body.result.price_level ? body.result.price_level : -1;
+        }
       }
     }
   );
+  if (body.status == "INVALID_REQUEST") return;
   var urlArray = [];
   for (var i = 0; i < results.length && i < 5; i++) {
     urlArray.push(
