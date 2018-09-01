@@ -1,13 +1,22 @@
 const request = require("request-promise");
 const cafeModel = require("./../models/cafeModel");
 const dotenv = require("dotenv");
+const locationName = [
+  "serangoon",
+  "bishan",
+  "ang mo kio",
+  "queenstown",
+  "lorong chuan"
+];
 
 var findCafe = async query => {
   var results = [];
   var locationCafe = findCafeByLocation(query);
-  var nameCafe = findCafeByName(query);
-  if (!nameCafe.empty) {
-    results = results.concat(await nameCafe);
+  if (locationName.find(name => name == query.toLowerCase()) == undefined) {
+    var nameCafe = findCafeByName(query);
+    if (!nameCafe.empty) {
+      results = results.concat(await nameCafe);
+    }
   }
   if (!locationCafe.empty) {
     results = results.concat(await locationCafe);
@@ -61,7 +70,6 @@ var findCafeByName = async query => {
       }
     },
     function(err, res, body) {
-      console.log(body);
       if (err) console.log(err);
       else {
         cafeData = JSON.parse(body);
