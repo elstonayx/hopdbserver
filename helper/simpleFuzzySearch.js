@@ -6,7 +6,17 @@ const locationName = [
   "bishan",
   "ang mo kio",
   "queenstown",
-  "lorong chuan"
+  "lorong chuan",
+  "tampines",
+  "pasir ris",
+  "jurong",
+  "toa payoh",
+  "yishun",
+  "buona vista",
+  "orchard",
+  "kovan",
+  "bedok",
+  "somerset"
 ];
 
 var findCafe = async query => {
